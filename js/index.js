@@ -4,7 +4,6 @@ let limitMonstNumString = `/?_limit=${limitMonstNum}`;
 let pageOffset = 1;
 let pageOffsetString = `&_page=${pageOffset}`;
 let queryString = limitMonstNumString + pageOffsetString; 
-console.log(queryString);
 let monstersUrl = `http://localhost:3000/monsters${queryString}`;
 
 const init = () => {
@@ -17,27 +16,34 @@ const init = () => {
 };
 
 function fetchMonsters(){
+    const monstContainer = document.querySelector('#monster-container');
+
     fetch(monstersUrl)
         .then(res => res.json())
             .then(array => {
                 for (const obj of array){
                 console.log(obj.name);
-                let li = document.createElement('li');
-                
-                // let
+                console.log(obj);
+                let div = document.createElement('div');
+                let h1 = document.createElement('h1');
+                let h2 = document.createElement('h2');
+                let p = document.createElement('p');
+                h1.textContent = obj.name;
+                h2.textContent = `Age: ${obj.age}`;
+                p.textContent = obj.description;
+                div.append(h1, h2, p);
+                monstContainer.appendChild(div);
                 }
             });
 };
 
 function forwardClick(e){
-    // e.
     pageOffset = pageOffset + 1;
     monstersUrl = `http://localhost:3000/monsters/?_limit=50&_page=${pageOffset}`;
     fetchMonsters();
 };
 
 function backwardClick(e){
-    // e.
     if (pageOffset > 1){
     pageOffset = pageOffset - 1;
     monstersUrl = `http://localhost:3000/monsters/?_limit=50&_page=${pageOffset}`;
